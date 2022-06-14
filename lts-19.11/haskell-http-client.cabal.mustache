@@ -1,0 +1,94 @@
+name:           {{cabalPackage}}
+version:        {{cabalVersion}}
+synopsis:       Auto-generated {{cabalPackage}} API Client
+description:    .
+                Client library for calling the {{appName}} API based on http-client.
+                .
+                host: {{host}}
+                .
+                base path: {{basePath}}
+                {{#version}}
+                .
+                {{appName}} API version: {{{.}}}
+                {{/version}}
+                .
+                OpenAPI spec version: {{swaggerVersion}}
+                .
+                {{^hideGenerationTimestamp}}Generated on: {{generatedDate}}
+                .
+                {{/hideGenerationTimestamp}}OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/{{swaggerVersion}}.md
+                .
+category:       Web
+homepage:       https://github.com/swagger-api/swagger-codegen#readme
+author:         Author Name Here
+maintainer:     author.name@email.com
+copyright:      YEAR - AUTHOR
+license:        UnspecifiedLicense
+build-type:     Simple
+cabal-version:  >= 1.10
+
+extra-source-files:
+    README.md
+    swagger.yaml
+
+library
+  hs-source-dirs:
+      lib
+  ghc-options: -Wall -funbox-strict-fields
+  build-depends:
+      aeson
+    , base
+    , base64-bytestring
+    , bytestring
+    , case-insensitive
+    , containers
+    , deepseq
+    , http-api-data
+    , http-client
+    , http-media
+    , http-types
+    , iso8601-time
+    , microlens
+    , safe-exceptions
+    , text
+    , time
+    , transformers
+    , unordered-containers
+    , {{^x-useMonadLogger}}katip{{/x-useMonadLogger}}{{#x-useMonadLogger}}{{/x-useMonadLogger}}
+  other-modules:
+      Paths_{{pathsName}}
+  exposed-modules:
+      {{baseModule}}{{^x-allowNonUniqueOperationIds}}
+      {{baseModule}}.API{{/x-allowNonUniqueOperationIds}}{{#apiInfo}}{{#apis}}
+      {{baseModule}}.API.{{classname}}{{/apis}}{{/apiInfo}}
+      {{baseModule}}.Client
+      {{baseModule}}.Core
+      {{baseModule}}.Logging
+      {{baseModule}}.MimeTypes
+      {{baseModule}}.Model
+      {{baseModule}}.ModelLens
+  default-language: Haskell2010
+
+test-suite tests
+  type: exitcode-stdio-1.0
+  main-is: Test.hs
+  hs-source-dirs:
+      tests
+  ghc-options: -Wall -fno-warn-orphans
+  build-depends:
+      {{cabalPackage}}
+    , QuickCheck
+    , aeson
+    , base
+    , bytestring
+    , containers
+    , hspec
+    , text
+    , time
+    , unordered-containers
+    , vector
+  other-modules:
+      ApproxEq
+      Instances
+      PropMime
+  default-language: Haskell2010
